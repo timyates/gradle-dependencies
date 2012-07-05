@@ -1,0 +1,20 @@
+repositories {
+  mavenCentral()
+}
+
+configurations {
+  something
+  another
+}
+
+dependencies {
+  something 'asm:asm:3.2'
+  another   'org.slf4j:slf4j-log4j12:1.6.2'
+}
+
+task copyAllDeps( type:Copy ) {
+  into "$buildDir/deps"
+  from subprojects.inject( [ configurations.all ] ) { list, pro ->
+    list << pro.configurations.all
+  }
+}
